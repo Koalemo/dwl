@@ -1515,44 +1515,117 @@ focusstack(const Arg *arg)
 
 void focusdir(const Arg *arg)
 {
-	/* Focus the left, right, up, down client relative to the current focused client on selmon */
+	/* Focus the left, right, up, down client relative to the current focused client on selmon 
+   * If none is found there, fall back to wrap araound. 
+   * If still none is found fall back to focusstack */
+
   Client *c, *sel = focustop(selmon);
-	if (!sel || sel->isfullscreen)
+	if (!sel)
 		return;
 
+  int xdist=INT_MAX;
+  int ydist=INT_MAX;
   int dist=INT_MAX;
   Client *newsel = NULL;
+  int newxdist=INT_MAX;
+  int newydist=INT_MAX;
   int newdist=INT_MAX;
-  wl_list_for_each(c, &clients, link) {
-    if (!VISIBLEON(c, selmon))
-      continue; /* skip non visible windows */
+  if (!sel->isfullscreen) {
+    wl_list_for_each(c, &clients, link) {
+      if (!VISIBLEON(c, selmon))
+        continue; /* skip non visible windows */
 
-    if (arg->ui == 0 && sel->geom.x <= c->geom.x) {
-      /* Client isn't on our left */
-      continue;
-    }
-    if (arg->ui == 1 && sel->geom.x >= c->geom.x) {
-      /* Client isn't on our right */
-      continue;
-    }
-    if (arg->ui == 2 && sel->geom.y <= c->geom.y) {
-      /* Client isn't above us */
-      continue;
-    }
-    if (arg->ui == 3 && sel->geom.y >= c->geom.y) {
-      /* Client isn't below us */
-      continue;
-    }
+      if (arg->ui == 0 && sel->geom.x <= c->geom.x) {
+        /* Client isn't on our left */
+        continue;
+      }
+      if (arg->ui == 1 && sel->geom.x >= c->geom.x) {
+        /* Client isn't on our right */
+        continue;
+      }
+      if (arg->ui == 2 && sel->geom.y <= c->geom.y) {
+        /* Client isn't above us */
+        continue;
+      }
+      if (arg->ui == 3 && sel->geom.y >= c->geom.y) {
+        /* Client isn't below us */
+        continue;
+      }
 
-    dist=abs(sel->geom.x-c->geom.x)+abs(sel->geom.y-c->geom.y);
-    if (dist < newdist){
-      newdist = dist;
-      newsel=c;
+      xdist=abs(sel->geom.x-c->geom.x);
+      ydist=abs(sel->geom.y-c->geom.y);
+      dist = xdist + ydist;
+      if (dist < newdist){
+        newdist = dist;
+        newsel=c;
+      }
+    }
+    if (newsel != NULL){
+      focusclient(newsel, 1);
+      return;
+    }
+    /* none found yet. try to wrap around then. */
+    newdist = 0; /* now we're looking for the max distance, so initialize to 0 */
+    if (arg->ui == 0 || arg->ui == 1) {
+      newxdist = 0; 
+      newydist = INT_MAX;
+    } else {
+      newxdist = INT_MAX;
+      newydist = 0; 
+    }
+    wl_list_for_each(c, &clients, link) {
+      if (!VISIBLEON(c, selmon))
+        continue; /* skip non visible windows */
+
+      if (arg->ui == 1 && sel->geom.x <= c->geom.x) {
+        /* Client isn't on our left */
+        continue;
+      }
+      if (arg->ui == 0 && sel->geom.x >= c->geom.x) {
+        /* Client isn't on our right */
+        continue;
+      }
+      if (arg->ui == 3 && sel->geom.y <= c->geom.y) {
+        /* Client isn't above us */
+        continue;
+      }
+      if (arg->ui == 2 && sel->geom.y >= c->geom.y) {
+        /* Client isn't below us */
+        continue;
+      }
+
+      xdist=abs(sel->geom.x-c->geom.x);
+      ydist=abs(sel->geom.y-c->geom.y);
+
+      if (arg->ui == 0 || arg->ui == 1) {
+        /* wrap horizontally: maximize xdist, minimize ydist */
+        if (xdist >= newxdist && ydist <=newydist) {
+          newxdist = xdist;
+          newydist = ydist;
+          newsel = c;
+        }
+      } else if (arg->ui == 2 || arg->ui == 3) {
+        /* wrap vertically: minimize xdist, maximise ydist */
+        if (xdist <= newxdist && ydist >= newydist) { 
+          newxdist = xdist;
+          newydist = ydist;
+          newsel = c;
+        }
+      }
+    }
+    if (newsel != NULL){
+      focusclient(newsel, 1);
+      return;
     }
   }
-  if (newsel != NULL){
-    focusclient(newsel, 1);
-  }
+
+  /* if we still haven't found anything, fall back to try and do focusstack. */
+  Arg *newarg = ecalloc(1, sizeof(*newarg));
+  if (arg->ui % 2)
+    newarg->ui = 1;
+  else
+    newarg->ui = -1;
+  focusstack(newarg);
 }
 
 /* We probably should change the name of this: it sounds like it
