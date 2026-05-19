@@ -1856,6 +1856,7 @@ void focusdir(const Arg *arg)
   else
     newarg->ui = -1;
   focusstack(newarg);
+  free(newarg);
 }
 
 /* We probably should change the name of this: it sounds like it
