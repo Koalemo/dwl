@@ -162,13 +162,11 @@ static const Key keys[] = {
 	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                      7),
 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                     8),
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_q,           quit,             {0} },
-	{ 0,				                    XF86XK_MonBrightnessUp,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/backlight --inc 1") },
-	{ 0,				                    XF86XK_MonBrightnessDown, spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/backlight --dec 3") },
-	{ MODKEY|ShiftMask,				      XK_space,                 spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shortcut-menus/keyboard-layout") },
-
-	{ 0,				                    XF86XK_AudioRaiseVolume,  spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --inc 1 ") },
-	{ 0,				                    XF86XK_AudioLowerVolume,  spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --dec 1") },
-	{ 0,				                    XF86XK_AudioMute,         spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --mute") },
+	{ 0,				                 XKB_KEY_XF86MonBrightnessUp,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/backlight --inc 1") },
+	{ 0,				                 XKB_KEY_XF86MonBrightnessDown, spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/backlight --dec 3") },
+	{ 0,				                 XKB_KEY_SunAudioRaiseVolume,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --inc 1 ") },
+	{ 0,				                 XKB_KEY_SunAudioLowerVolume,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --dec 1") },
+	{ 0,				                 XKB_KEY_SunAudioMute,          spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --mute") },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
