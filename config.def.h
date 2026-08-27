@@ -164,9 +164,9 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_q,           quit,             {0} },
 	{ 0,				                 XKB_KEY_XF86MonBrightnessUp,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/backlight --inc 5") },
 	{ 0,				                 XKB_KEY_XF86MonBrightnessDown, spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/backlight --dec 5") },
-	{ 0,				                 XKB_KEY_SunAudioRaiseVolume,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --inc 1 ") },
-	{ 0,				                 XKB_KEY_SunAudioLowerVolume,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --dec 1") },
-	{ 0,				                 XKB_KEY_SunAudioMute,          spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --mute") },
+	{ 0,				                 XKB_KEY_XF86AudioRaiseVolume,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --inc 1 ") },
+	{ 0,				                 XKB_KEY_XF86AudioLowerVolume,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --dec 1") },
+	{ 0,				                 XKB_KEY_XF86AudioMute,          spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --mute") },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
 	{ WLR_MODIFIER_CTRL|WLR_MODIFIER_ALT,XKB_KEY_Terminate_Server, quit, {0} },
