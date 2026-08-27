@@ -53,6 +53,7 @@ static const struct xkb_rule_names xkb_rules = {
 	/* example:
 	.options = "ctrl:nocaps",
 	*/
+  // switch keyboard layout using caps lock. -> caps lock is toggled with shift+caps lock.
   .layout="us,ch(de)",
 	.options = "grp:caps_toggle",
 };
