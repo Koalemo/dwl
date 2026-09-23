@@ -2356,10 +2356,11 @@ moveresize(const Arg *arg)
 
 int
 needsborder(Client *c) {
-	return ((countclients(c->mon) > 1
-			&& c->mon->lt[c->mon->sellt]->arrange != monocle)
-		|| c->isfloating)
-		&& !c->isfullscreen;
+	return (((countclients(c->mon) > 1
+        && c->mon->lt[c->mon->sellt]->arrange != monocle)
+      || c->isfloating)
+      && !c->isfullscreen)
+    || wl_list_length(&mons);
 }
 
 void
