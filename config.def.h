@@ -173,6 +173,7 @@ static const Key keys[] = {
 	{ 0,				                 XKB_KEY_XF86AudioRaiseVolume,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --inc 1 ") },
 	{ 0,				                 XKB_KEY_XF86AudioLowerVolume,   spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --dec 1") },
 	{ 0,				                 XKB_KEY_XF86AudioMute,          spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/volume --mute") },
+	{ 0,				                 XKB_KEY_XF86AudioMicMute,          spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/mic --mute") },
 	{ 0,				                 XKB_KEY_XF86Calculator,          spawn,     SHCMD("~/workspaceconfig/DEPS/scripts/shell/lock-and-suspend") },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
